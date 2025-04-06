@@ -8,14 +8,14 @@ import os
 class AuthService:
     def __init__(self):
         self.tokens_file = Path(settings.TOKENS_FILE)
-        self.scopes = ['https://www.googleapis.com/auth/gmail.readonly']
+        self.scopes = settings.google_scopes.split(' ') if ' ' in settings.google_scopes else [settings.google_scopes]
         
         # Create client config dict
         self.client_config = {
             "web": {
-                "client_id": settings.GOOGLE_CLIENT_ID,
-                "client_secret": settings.GOOGLE_CLIENT_SECRET,
-                "redirect_uris": [settings.GOOGLE_REDIRECT_URI],
+                "client_id": settings.google_client_id,
+                "client_secret": settings.google_client_secret,
+                "redirect_uris": [settings.google_redirect_uri],
                 "auth_uri": "https://accounts.google.com/o/oauth2/auth",
                 "token_uri": "https://oauth2.googleapis.com/token"
             }
@@ -26,7 +26,7 @@ class AuthService:
         flow = Flow.from_client_config(
             self.client_config,
             scopes=self.scopes,
-            redirect_uri=settings.GOOGLE_REDIRECT_URI
+            redirect_uri=settings.google_redirect_uri
         )
         
         # Use user_id as state parameter for security
@@ -43,7 +43,7 @@ class AuthService:
         flow = Flow.from_client_config(
             self.client_config,
             scopes=self.scopes,
-            redirect_uri=settings.GOOGLE_REDIRECT_URI,
+            redirect_uri=settings.google_redirect_uri,
             state=state
         )
         

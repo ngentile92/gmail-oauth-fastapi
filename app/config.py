@@ -2,22 +2,27 @@ from pydantic_settings import BaseSettings
 from functools import lru_cache
 import os
 from pathlib import Path
+from typing import List
 
 class Settings(BaseSettings):
-    # Google OAuth Settings
-    GOOGLE_CLIENT_ID: str
-    GOOGLE_CLIENT_SECRET: str
-    GOOGLE_REDIRECT_URI: str = "http://localhost:8000/oauth/callback"
-    
-    # Application Settings
-    APP_HOST: str = "localhost"
-    APP_PORT: int = 8000
+    # Google OAuth settings
+    google_client_id: str
+    google_client_secret: str
+    google_redirect_uri: str
+    google_scopes: str
+
+    # Application settings
+    app_host: str = "0.0.0.0"
+    app_port: int = 8000
     
     # Storage Settings
     TOKENS_FILE: str = "tokens.json"
     
-    class Config:
-        env_file = ".env"
+    model_config = {
+        "env_file": ".env",
+        "env_file_encoding": "utf-8",
+        "extra": "allow"
+    }
 
 @lru_cache()
 def get_settings():
