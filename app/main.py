@@ -23,7 +23,7 @@ async def login(user_id: str):
     auth_url = auth_service.get_authorization_url(user_id)
     return {"auth_url": auth_url}
 
-@app.get("/oauth/callback")
+@app.get("/oauth2callback")
 async def oauth_callback(state: str, code: str):
     """Handle OAuth callback and store tokens"""
     try:

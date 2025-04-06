@@ -46,7 +46,10 @@ logs/
 *.db
 
 # OAuth 2.0 credentials
-client_secrets.json
-credentials.json
-token.json
-*.pickle 
+client_secret*.json
+tokens.json
+tokens/
+*.pickle
+
+# Misc
+.DS_Store 
